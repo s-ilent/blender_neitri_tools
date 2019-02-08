@@ -4,8 +4,8 @@
 bl_info = {
     "name": "Neitri's Tools",
     "author": "Neitri",
-    "version": (1, 1, 1),
-    "blender": (2, 79, 0),
+    "version": (1, 1, 0),
+    "blender": (2, 80, 0),
     "description": "Delete Zero Weight Bones and Vertex Groups, Delete Bones Constraints, Delete Bone and Add Weights To Parent",
     "location": "Space Menu",
     "warning": "",
@@ -18,7 +18,7 @@ import bpy
 
 
 
-class OperatorBase(bpy.types.Operator):
+class NT_OT_OperatorBase(bpy.types.Operator):
 
     def optionallySelectBones(self):
 
@@ -88,23 +88,23 @@ class ArmatureEditMode:
     def __init__(self, armature):
         # save user state, select armature, go to armature edit mode
         self._armature = armature
-        self._active_object = bpy.context.scene.objects.active
-        bpy.context.scene.objects.active = self._armature
-        self._armature_hide = self._armature.hide
-        self._armature.hide = False
+        self._active_object = bpy.context.view_layer.objects.active 
+        bpy.context.view_layer.objects.active = self._armature
+        self._armature_hide = self._armature.hide_viewport
+        self._armature.hide_viewport = False
         self._armature_mode = self._armature.mode
         bpy.ops.object.mode_set(mode="EDIT")
 
     def restore(self):
         # restore user state
         bpy.ops.object.mode_set(mode=self._armature_mode)
-        self._armature.hide = self._armature_hide
-        bpy.context.scene.objects.active = self._active_object
+        self._armature.hide_viewport = self._armature_hide
+        bpy.context.view_layer.objects.active  = self._active_object
 
 
 
 
-class DeleteZeroWeightBonesAndVertexGroups(OperatorBase):
+class DeleteZeroWeightBonesAndVertexGroups(NT_OT_OperatorBase):
 
     bl_idname = "neitri_tools.delete_zero_weight_bones_and_vertex_groups"
     bl_label = "Delete Zero Weight Bones and Vertex Groups"
@@ -157,7 +157,7 @@ class DeleteZeroWeightBonesAndVertexGroups(OperatorBase):
 
 
 
-class DeleteBonesConstraints(OperatorBase):
+class DeleteBonesConstraints(NT_OT_OperatorBase):
 
     bl_idname = "neitri_tools.delete_bones_constraints"
     bl_label = "Delete Bones Constraints"
@@ -195,7 +195,7 @@ class DeleteBonesConstraints(OperatorBase):
 
 
 
-class DeleteBoneAndAddWeightsToParent(OperatorBase):
+class DeleteBoneAndAddWeightsToParent(NT_OT_OperatorBase):
 
     bl_idname = "neitri_tools.delete_bone_and_add_weights_to_parent"
     bl_label = "Delete Bone and Add Weights To Parent"
@@ -227,7 +227,7 @@ class DeleteBoneAndAddWeightsToParent(OperatorBase):
                 if vertex_group_to_remove is not None:
                     
                     if vertex_group_to_add_weights_to is None:
-                        vertex_group_to_add_weights_to = object.vertex_groups.new(bone_name_to_add_weights_to)
+                        vertex_group_to_add_weights_to = object.vertex_groups.add(bone_name_to_add_weights_to)
 
                     for vertex in object.data.vertices: # transfer weight for each vertex                        
                             weight_to_transfer = 0
