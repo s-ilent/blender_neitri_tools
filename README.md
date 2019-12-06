@@ -1,5 +1,5 @@
-### Neitri notes: All of this is now part of [Cats Blender Plugin](https://vrcat.club/threads/cats-blender-plugin-0-3-0.6/), I highly recommend you use it instead.
-### However, Cats doesn't include the very handy shortcuts, so this addon is far more useful for general usage. 
+### Neitri notes: *All of this is now part of [Cats Blender Plugin](https://vrcat.club/threads/cats-blender-plugin-0-3-0.6/), I highly recommend you use it instead.*
+### However, Cats will break a whole bunch of things for no reason (i.e. visibility) when you use theirs as of the last update, so the original is far more useful.
 
 # Overview
 Few useful Blender operators inside one addon script, especially useful for improving imported MMD models bones hiearchy. Made for lovely VRChat community.
